@@ -32,6 +32,13 @@ class MTableEditField extends React.Component {
 
   renderLookupField() {
     const { helperText, error, ...props } = this.getProps();
+    const lookupType = typeof this.props.columnDef.lookupWhenEdit;
+    const lookup =
+      lookupType === "function"
+        ? this.props.columnDef.lookupWhenEdit(this.props.rowData)
+        : lookupType === "object"
+        ? this.props.columnDef.lookupWhenEdit
+        : this.props.columnDef.lookup;
     return (
       <FormControl error={Boolean(error)}>
         <Select
@@ -43,9 +50,9 @@ class MTableEditField extends React.Component {
           }}
           SelectDisplayProps={{ "aria-label": this.props.columnDef.title }}
         >
-          {Object.keys(this.props.columnDef.lookup).map((key) => (
+          {Object.entries(lookup).map(([key, value]) => (
             <MenuItem key={key} value={key}>
-              {this.props.columnDef.lookup[key]}
+              {value}
             </MenuItem>
           ))}
         </Select>
@@ -123,7 +130,7 @@ class MTableEditField extends React.Component {
           InputProps={{
             style: {
               fontSize: 13,
-            }
+            },
           }}
           inputProps={{
             "aria-label": `${this.props.columnDef.title}: press space to edit`,
@@ -145,7 +152,7 @@ class MTableEditField extends React.Component {
           InputProps={{
             style: {
               fontSize: 13,
-            }
+            },
           }}
           inputProps={{
             "aria-label": `${this.props.columnDef.title}: press space to edit`,
@@ -178,7 +185,7 @@ class MTableEditField extends React.Component {
         InputProps={{
           style: {
             fontSize: 13,
-          }
+          },
         }}
         inputProps={{
           "aria-label": this.props.columnDef.title,
@@ -208,7 +215,7 @@ class MTableEditField extends React.Component {
           style: {
             fontSize: 13,
             textAlign: "right",
-          }
+          },
         }}
         inputProps={{
           "aria-label": this.props.columnDef.title,

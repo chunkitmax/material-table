@@ -63,6 +63,7 @@ export const propTypes = {
       hideFilterIcon: PropTypes.bool,
       initialEditValue: PropTypes.any,
       lookup: PropTypes.object,
+      lookupWhenEdit: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
       editable: PropTypes.oneOfType([
         PropTypes.func,
         PropTypes.oneOf(["always", "onUpdate", "onAdd", "never"]),
